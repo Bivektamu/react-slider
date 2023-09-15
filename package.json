@@ -1,6 +1,6 @@
 {
   "name": "react-fancyslider",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/my-react-library.js",
   "scripts": {
