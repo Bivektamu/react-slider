@@ -45,21 +45,21 @@ const images = [img1, img2, ....] //Slider Images
 
 Below are the options to control Slider component as per requirement:
 
-**`slideToShow {type: integar}`**: number of slides to show between 3 to 1 `Default: 3`
+**`slideToShow {type: integar}`**: number of slides to show between 3 to 1 **`Default: 3`**
 
-`**images {type:array}**`: images for slider `*Required`
+**`images {type:array}`**: images for slider **`*Required`**
 
-`**auto {type: boolean}**`: sets slider to auto slide `Default: true`
+**`auto {type: boolean}`**: sets slider to auto slide **`Default: true`**
 
-`**timer {type: integar}**`: sets the speed of the slideshow cycling, in milliseconds `Default: 4000 || 4s`
+**`timer {type: integar}`**: sets the speed of the slideshow cycling, in milliseconds `Default: 4000 || 4s`
 
-`**transitionTime {type: integar}**`: sets the speed of animation, in milliseconds `Default" 500 || 0.5s`
+**`transitionTime {type: integar}`**: sets the speed of animation, in milliseconds **`Default" 500 || 0.5s`**
 
-`**directionNav {type: boolean}**`: sets left and right arrow for navigation `Default: false`
+**`directionNav {type: boolean}`**: sets left and right arrow for navigation **`Default: false`**
 
-`**controlNav {type: boolean}**`: sets dotted navigation buttons on bottom of slider  `Defult: false`
+**`controlNav {type: boolean}`**: sets dotted navigation buttons on bottom of slider  `Defult: false`
 
-`**animationEasing {type:string [slide || fade]}**` : sets easing of animation. You can have choose between default, fade or simple slide easing  `Default: null`
+**`animationEasing {type:string [slide || fade]}`** : sets easing of animation. You can have choose between default, fade or simple slide easing  **`Default: null`**
 
 
 
