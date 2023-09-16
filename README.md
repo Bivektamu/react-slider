@@ -51,7 +51,7 @@ Below are the options to control Slider component as per requirement:
 
 **`auto {type: boolean}`**: sets slider to auto slide **`Default: true`**
 
-**`timer {type: integar}`**: sets the speed of the slideshow cycling, in milliseconds `Default: 4000 || 4s`
+**`timer {type: integar}`**: sets the speed of the slideshow cycling, in milliseconds **`Default: 4000 || 4s`**
 
 **`transitionTime {type: integar}`**: sets the speed of animation, in milliseconds **`Default" 500 || 0.5s`**
 
