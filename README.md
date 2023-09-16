@@ -45,7 +45,7 @@ const images = [img1, img2, ....] //Slider Images
 
 Below are the options to control Slider component as per requirement:
 
-`**slideToShow** **{type: integar}**`: number of slides to show between 3 to 1 `Default: 3`
+**`slideToShow {type: integar}`**: number of slides to show between 3 to 1 `Default: 3`
 
 `**images {type:array}**`: images for slider `*Required`
 
