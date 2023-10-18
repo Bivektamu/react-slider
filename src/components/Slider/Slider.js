@@ -113,6 +113,9 @@ const Slider = (props) => {
     if (window.innerWidth < 761) {
       slider.classList.add("show_only_1");
       lS.style.width = "100%";
+      center.style.display = "none";
+        rightSide.style.display = "none";
+        lS.style.filter = "blur(0)";
     }
 
     setImages(newImgs);
@@ -341,8 +344,8 @@ const Slider = (props) => {
     sliderLogic(index);
 
     setTimeout(() => {
-      setStop(false);
       slider.classList.remove("reverse");
+      setStop(false);
     }, transitionTime);
   };
 
