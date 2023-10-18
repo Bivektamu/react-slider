@@ -1,9 +1,10 @@
 import "./Slider.css"
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 const Slider = (props) => {
-  const [slider, setSlider] = useState(document.getElementById('fancySlider'));
+  const sRef = useRef(null)
+  const [slider, setSlider] = useState(null);
   const [stop, setStop] = useState(false);
   const [images, setImages] = useState(props.images ? props.images : []);
   const [leftSide, setLeftSide] = useState(null);
@@ -18,11 +19,18 @@ const Slider = (props) => {
   const transitionTime = props.transitionTime ? props.transitionTime : 500;
   const controlNav = slideToShow === 2 ? false : props?.controlNav;
   const animationEasing = props?.animationEasing;
+  const cs = props.className? props.className+' fancySlider' : 'fancySlider'
+
+
+  useEffect(()=> {
+    if(sRef) {
+      setSlider(sRef.current)
+    }
+
+
+  }, [sRef])
 
   useEffect(() => {
-    setSlider(document.getElementById('fancySlider'))
-
-    
       if (images && !leftSide && slider) {
         initializeSlider();
       } else {
@@ -55,10 +63,10 @@ const Slider = (props) => {
 
     const newImgs = images;
 
-    wrapper.setAttribute("id", "wrapper");
-    lS.setAttribute("id", "left");
-    center.setAttribute("id", "center");
-    rightSide.setAttribute("id", "right");
+    wrapper.setAttribute("class", "wrapper");
+    lS.setAttribute("class", "left");
+    center.setAttribute("class", "center");
+    rightSide.setAttribute("class", "right");
 
     let html = `<img src="${newImgs[c]}" class="current" /><img src="${
       newImgs[c + 1]
@@ -179,14 +187,14 @@ const Slider = (props) => {
     }
 
     if (controlNav) {
-      let grabController = document.querySelector(
+      let grabController = slider.querySelector(
         ".controlWrapper > ul > li > button.active"
       );
       if (grabController) {
         grabController.classList.remove("active");
       }
 
-      grabController = document.querySelector(
+      grabController = slider.querySelector(
         `.controlWrapper > ul > li:nth-child(${c + 1})`
       );
 
@@ -195,9 +203,9 @@ const Slider = (props) => {
 
     setCounter(c);
 
-    let leftSide = document.getElementById("left"),
-      rightSide = document.getElementById("right"),
-      center = document.getElementById("center"),
+    let leftSide = slider.querySelector(".left"),
+      rightSide = slider.querySelector(".right"),
+      center = slider.querySelector(".center"),
       nextSlide;
 
     leftSide.childNodes.forEach((element) => {
@@ -353,7 +361,8 @@ const Slider = (props) => {
       <ul>
         {images.map((item, index) => (
           <li key={index}>
-            <button onClick={(e) => controllerClicked(e)}></button>
+            {index==0?(<button className="active" onClick={(e) => controllerClicked(e)}></button>):<button onClick={(e) => controllerClicked(e)}></button>}
+            
           </li>
         ))}
       </ul>
@@ -362,7 +371,7 @@ const Slider = (props) => {
 
 
   return (
-    <div id='fancySlider' className='flexslider'>
+    <div  className={cs} ref={sRef}>
       {directionNav && directionNavWrapper}
       {controlNav && slideToShow !== 2 && controlNavWrapper}
     </div>

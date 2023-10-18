@@ -1,22 +1,22 @@
-#fancySlider {
+.fancySlider {
     position: relative;
     width: 100%;
     margin: 0 auto;
   }
   
-  #fancySlider #wrapper {
+  .fancySlider .wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
   }
   
-  #fancySlider #wrapper > div {
+  .fancySlider .wrapper > div {
     position: relative;
     overflow: hidden;
   }
   
-  #fancySlider #wrapper > div .next {
+  .fancySlider .wrapper > div .next {
     position: absolute;
     left: 10px;
     top: 0;
@@ -32,93 +32,93 @@
     transition-property: all;
   }
   
-  #fancySlider #wrapper > div .next.show {
+  .fancySlider .wrapper > div .next.show {
     opacity: 1;
     left: 0;
     transform: translateX(0) scaleY(1) !important;
   }
   
-  #fancySlider #wrapper > div .current {
+  .fancySlider .wrapper > div .current {
     transition-property: all;
   }
   
-  #fancySlider #wrapper > div .current.hide {
+  .fancySlider .wrapper > div .current.hide {
     transform: translateX(-20%) scaleY(1.1);
     transition-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
     transition-delay: 0.1s;
   }
   
-  #fancySlider #wrapper > div#left,
-  #fancySlider #wrapper > div#right {
+  .fancySlider .wrapper > .left,
+  .fancySlider .wrapper > .right {
     filter: blur(2px);
   }
   
-  #fancySlider #wrapper > div#center {
+  .fancySlider .wrapper > .center {
     padding: 0;
   }
   
-  #fancySlider #wrapper > div#center .next {
+  .fancySlider .wrapper > .center .next {
     width: 100%;
   }
   
-  #fancySlider #wrapper > div img {
+  .fancySlider .wrapper > div img {
     display: block;
     width: 100%;
     object-fit: cover;
   }
   
-  #fancySlider.slide #wrapper > div .next {
+  .fancySlider.slide .wrapper > div .next {
     transform: translateX(100%);
     left: 0;
   }
   
-  #fancySlider.slide #wrapper > div .next.show {
+  .fancySlider.slide .wrapper > div .next.show {
     opacity: 1;
     left: 0;
     transform: translateX(0);
   }
   
-  #fancySlider.slide #wrapper > div .current.hide {
+  .fancySlider.slide .wrapper > div .current.hide {
     transform: translateX(-100%);
     transition-delay: 0s;
   }
   
-  #fancySlider.reverse #wrapper > div .next {
+  .fancySlider.reverse .wrapper > div .next {
     transform: translateX(-100%) scaleY(1.2);
   }
   
-  #fancySlider.reverse #wrapper > div .current.hide {
+  .fancySlider.reverse .wrapper > div .current.hide {
     transform: translateX(20%) scaleY(1.1);
   }
   
-  #fancySlider.reverse.slide #wrapper > div .next {
+  .fancySlider.reverse.slide .wrapper > div .next {
     transform: translateX(-100%);
   }
   
-  #fancySlider.reverse.slide #wrapper > div .current.hide {
+  .fancySlider.reverse.slide .wrapper > div .current.hide {
     transform: translateX(100%);
   }
   
-  #fancySlider.fade #wrapper > div .next {
+  .fancySlider.fade .wrapper > div .next {
     transform: none;
     opacity: 0;
     left: 0;
   }
   
-  #fancySlider.fade #wrapper > div .next.show {
+  .fancySlider.fade .wrapper > div .next.show {
     opacity: 1;
   }
   
-  #fancySlider.fade #wrapper > div .current {
+  .fancySlider.fade .wrapper > div .current {
     opacity: 1;
   }
   
-  #fancySlider.fade #wrapper > div .current.hide {
+  .fancySlider.fade .wrapper > div .current.hide {
     transform: none;
     opacity: 0;
   }
   
-  #fancySlider .click_me {
+  .fancySlider .click_me {
     width: 66px;
     height: 14px;
     border: none;
@@ -131,14 +131,14 @@
     cursor: pointer;
   }
   
-  #fancySlider .click_me.hide {
+  .fancySlider .click_me.hide {
     width: 0;
     height: 0;
     opacity: 0;
     visibility: hidden;
   }
   
-  #fancySlider .click_me:before {
+  .fancySlider .click_me:before {
     content: "";
     position: absolute;
     width: 65px;
@@ -147,7 +147,7 @@
     background: #fff;
   }
   
-  #fancySlider .click_me:after {
+  .fancySlider .click_me:after {
     content: "";
     position: absolute;
     left: 2px;
@@ -161,7 +161,7 @@
     margin: auto;
   }
   
-  #fancySlider .click_me svg {
+  .fancySlider .click_me svg {
     position: absolute;
     left: 0;
     top: 0;
@@ -169,33 +169,33 @@
     height: auto;
   }
   
-  #fancySlider .click_me.left {
+  .fancySlider .click_me.left {
     left: 20px;
   }
   
-  #fancySlider .click_me.right {
+  .fancySlider .click_me.right {
     right: 20px;
     transform: rotate(180deg);
   }
   
-  #fancySlider .controlWrapper {
+  .fancySlider .controlWrapper {
     display: block;
     text-align: center;
     margin-top: 40px;
   }
   
-  #fancySlider .controlWrapper ul {
+  .fancySlider .controlWrapper ul {
     display: flex;
     align-items: center;
     justify-content: center;
     column-gap: 10px;
   }
   
-  #fancySlider .controlWrapper ul li {
+  .fancySlider .controlWrapper ul li {
     list-style: none;
   }
   
-  #fancySlider .controlWrapper ul li button {
+  .fancySlider .controlWrapper ul li button {
     display: block;
     width: 15px;
     height: 15px;
@@ -206,12 +206,11 @@
     border: 1px solid black;
   }
   
-  #fancySlider .controlWrapper ul li button:hover,
-  #fancySlider .controlWrapper ul li button.active {
+  .fancySlider .controlWrapper ul li button:hover,
+  .fancySlider .controlWrapper ul li button.active {
     background: black;
   }
   
-  #fancySlider .controlWrapper ul li button.active {
+  .fancySlider .controlWrapper ul li button.active {
     pointer-events: none;
   }
-  
