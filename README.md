@@ -1,7 +1,7 @@
 # React FancySlider
 
-A lightweight and flexible carousel slider that allows you to build fully functional and advanced slider with three slides. This react library is built using react.js, css and adheres to latest ECMAScript specs. This library is intended to be used along with react.js.
-Supports IE10+, all major browsers and even mobile. You can view live demo [here](https://fancysliderdemo.netlify.app/).
+A lightweight and flexible carousel slider that allows you to build fully functional and advanced slider with three slides. This react library is built using react.js, css and adheres to latest ECMAScript specs. This library is intended to be used along with react.js. Latest, update supports touch based devices and responsive layouts for mobiles.
+Supports IE10+, all major browsers and even mobile. You can view live demo [here](https://fancysliderdemo.netlify.app/). If you have any issues, please follow this [link](https://github.com/Bivektamu/react-slider/issues).
 
 ## Inspiration
 
@@ -48,6 +48,8 @@ Below are the options to control Slider component as per requirement:
 **`slideToShow {type: integar}`**: number of slides to show between 3 to 1 **`Default: 3`**
 
 **`className {type: string}`**: custom class name passed to slider for better control
+
+**`touch {type: boolean}`**: support for touch based and mobile devices. **`Default: true`**
 
 **`images {type:array}`**: images for slider **`*Required`**
 

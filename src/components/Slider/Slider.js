@@ -1,156 +1,245 @@
-import "./Slider.css"
+import "./Slider.css";
 
 import React, { useEffect, useState, useRef } from "react";
 
 const Slider = (props) => {
-  const sRef = useRef(null)
-  const [slider, setSlider] = useState(null);
+  const sRef = useRef(null);
   const [stop, setStop] = useState(false);
   const [images, setImages] = useState(props.images ? props.images : []);
-  const [leftSide, setLeftSide] = useState(null);
   const [counter, setCounter] = useState(0);
   const [auto, setAuto] = useState(props?.auto);
   const [animating, setAnimating] = useState(false);
 
+  const touch = props.touch? props.touch : true;
+  const [x1, setX1] = useState(0);
+  const [x2, setX2] = useState(0);
+  const [swiping, setSwiping] = useState(false);
+
   const timer = props.timer ? props.timer : 4000;
   const gap = props.gap ? props.gap : 50;
   const directionNav = props?.directionNav;
-  const slideToShow = props?.slideToShow;
+  const slideToShow = props.slideToShow ? props.slideToShow : 3;
   const transitionTime = props.transitionTime ? props.transitionTime : 500;
-  const controlNav = slideToShow === 2 ? false : props?.controlNav;
+  const controlNav = props.controlNav ? props.controlNav : false;
   const animationEasing = props?.animationEasing;
-  const cs = props.className? props.className+' fancySlider' : 'fancySlider'
+  const cs = props.className ? props.className + " fancySlider" : "fancySlider";
 
+  const [wrapper, setWrapper] = useState();
 
-  useEffect(()=> {
-    if(sRef) {
-      setSlider(sRef.current)
-    }
-
-
-  }, [sRef])
+  const [windowSize, setWindowSize] = useState(window.innerWidth);
 
   useEffect(() => {
-      if (images && !leftSide && slider) {
-        initializeSlider();
-      } else {
-        if (auto || (!directionNav && !controlNav)) {
-          let c = counter;
-          c = c + 1;
+    if (images) {
+      initializeSlider();
+    }
+  }, [images, slideToShow]);
 
-          const sliderInterval = setInterval(() => {
-            sliderLogic(c);
-          }, timer);
+  useEffect(() => {
+    if (auto || (!directionNav && !controlNav)) {
+      let c = counter;
+      c = c + 1;
 
-          if (stop) {
-            clearInterval(sliderInterval);
-          }
+      const sliderInterval = setInterval(() => {
+        sliderLogic(c);
+      }, timer);
 
-          return () => clearInterval(sliderInterval);
-        }
+      if (stop) {
+        clearInterval(sliderInterval);
       }
 
-  }, [slider, stop, timer, leftSide, counter, animating]);
+      return () => clearInterval(sliderInterval);
+    }
+  }, [stop, timer, counter, animating, auto]);
 
+  useEffect(() => {
+    if (controlNav) {
+      let c = counter;
+      setTimeout(() => {
+        let grabController = sRef.current.querySelector(
+          ".controlWrapper > ul > li > button.active"
+        );
+        if (grabController) {
+          grabController.classList.remove("active");
+        }
+
+        grabController = sRef.current.querySelector(
+          `.controlWrapper > ul > li:nth-child(${c + 1})`
+        );
+
+        grabController.firstChild.classList.add("active");
+      }, transitionTime);
+    }
+  }, [controlNav, counter]);
+
+  useEffect(() => {
+    if (windowSize < 760 && slideToShow > 1) {
+      let divs = document.querySelectorAll(".wrapper > div");
+      if (divs.length > 0) {
+        divs.forEach((ele) => {
+          if (ele.className === "left") {
+            ele.style.width = "100%";
+          } else {
+            ele.style.display = "none";
+          }
+        });
+      }
+    } else {
+      let divs = document.querySelectorAll(".wrapper > div");
+
+      if (slideToShow > 2) {
+        if (divs.length > 0) {
+          divs.forEach((ele) => {
+            ele.style.display = "block";
+            ele.style.width = `calc(33.33% - ${gap / 3}px)`;
+          });
+        }
+      } else {
+        if (divs.length > 0) {
+          divs.forEach((ele) => {
+            if (ele.className === "right") {
+              ele.style.width = "none";
+            } else {
+              ele.style.display = "block";
+              ele.style.width = `calc(50% - ${gap / 2}px)`;
+            }
+          });
+        }
+      }
+    }
+  }, [windowSize]);
+
+  useEffect(() => {
+    if(x1==x2) {
+      return
+    }
+    setStop(true);
+    let c = counter;
+    if (x1 > x2) {
+      c = c + 1;
+    } else if (x1 < x2) {
+        sRef.current.classList.add("reverse");
+        c = c - 1;
+    }
+
+    sliderLogic(c);
+
+    setTimeout(() => {
+      x1 < x2 && sRef.current.classList.remove("reverse");
+      setStop(false);
+    }, transitionTime);
+
+  }, [swiping]);
+
+  ////////////////////////////////////////////////
+  const screenTouched = (e) => {
+    setX1(e.touches[0].screenX);
+    setX2(e.touches[0].screenX);
+  };
+
+  const screenSwiped = (e) => {
+    setX2(e.touches[0].screenX);
+  };
+
+  const screenTouchEnd = () => {
+    setSwiping((prevSwiping) => !prevSwiping);
+  };
 
   ////////////////////////////////////////////////
   function initializeSlider() {
-    let lS = document.createElement("div"),
-      rightSide = document.createElement("div"),
-      center = document.createElement("div"),
-      c = counter,
-      wrapper = document.createElement("div");
+    let c = counter;
 
-    const newImgs = images;
+    switch (animationEasing) {
+      case "slide":
+        sRef.current.classList.add("slide");
+        break;
 
-    wrapper.setAttribute("class", "wrapper");
-    lS.setAttribute("class", "left");
-    center.setAttribute("class", "center");
-    rightSide.setAttribute("class", "right");
+      case "fade":
+        sRef.current.classList.add("fade");
+        break;
 
-    let html = `<img src="${newImgs[c]}" class="current" /><img src="${
-      newImgs[c + 1]
-    }" class="next" />`;
-    lS.innerHTML = html;
+      default:
+        break;
+    }
 
-    html = `<img src="${newImgs[c + 1]}" class="current" /><img src="${
-      newImgs[c + 2]
-    }" class="next" />`;
-    center.innerHTML = html;
-
-    html = `<img src="${newImgs[c + 2]}" class="current" /><img src="${
-      newImgs[c + 3]
-    }" class="next" />`;
-    rightSide.innerHTML = html;
-
-    switch (slideToShow) {
+    let leftStyle, centerStyle, rightStyle;
+    const tempS = window.innerWidth < 761 ? 1 : slideToShow;
+    switch (tempS) {
       case 1:
-        slider.classList.add("show_only_1");
-        lS.style.width = "100%";
-        center.style.display = "none";
-        rightSide.style.display = "none";
-        lS.style.filter = "blur(0)";
+        leftStyle = { width: "100%", filter: "blur(0)" };
+        centerStyle = { display: "none" };
+        rightStyle = { display: "none" };
         break;
 
       case 2:
-        center.style.width = `calc(50% - ${gap / 2}px)`;
-        lS.style.width = `calc(50% - ${gap / 2}px)`;
-        lS.style.filter = "blur(0)";
-        rightSide.style.display = "none";
-
+        leftStyle = { width: `calc(50% - ${gap / 2}px)`, filter: "blur(0)" };
+        centerStyle = { width: `calc(50% - ${gap / 2}px)`, filter: "blur(0)" };
+        rightStyle = { display: "none" };
         if (!directionNav) {
           setAuto(true);
         }
         break;
 
       default:
-        rightSide.style.width = `calc(33.333% - ${gap}px)`;
-        lS.style.width = `calc(33.333% - ${gap}px)`;
-        center.style.width = `calc(33.333%)`;
+        leftStyle = { width: `calc(33.333% - ${gap / 3}px)` };
+        centerStyle = {
+          width: `calc(33.333% - ${gap / 3}px)`,
+          filter: "blur(0)",
+        };
+        rightStyle = { width: `calc(33.333% - ${gap / 3}px)` };
         break;
     }
 
-    if (window.innerWidth < 761) {
-      slider.classList.add("show_only_1");
-      lS.style.width = "100%";
-      center.style.display = "none";
-        rightSide.style.display = "none";
-        lS.style.filter = "blur(0)";
+    let lS, center, rightSide;
+
+    const newImgs = images;
+
+    if (touch) {
+      lS = (
+        <div
+          onTouchStart={(e) => screenTouched(e)}
+          onTouchMove={(e) => screenSwiped(e)}
+          onTouchEnd={() => screenTouchEnd()}
+          className="left"
+          style={leftStyle}
+        >
+          <img src={newImgs[c]} className="current" alt="img" />
+          <img src={newImgs[c + 1]} className="next" alt="img" />
+        </div>
+      );
+    } else {
+      lS = (
+        <div className="left" style={leftStyle}>
+          <img src={newImgs[c]} className="current" alt="img" />
+          <img src={newImgs[c + 1]} className="next" alt="img" />
+        </div>
+      );
     }
+
+    center = (
+      <div className="center" style={centerStyle}>
+        <img src={newImgs[c + 1]} className="current" alt="img" />
+        <img src={newImgs[c + 2]} className="next" alt="img" />
+      </div>
+    );
+
+    rightSide = (
+      <div className="right" style={rightStyle}>
+        <img src={newImgs[c + 2]} className="current" alt="img" />
+        <img src={newImgs[c + 3]} className="next" alt="img" />
+      </div>
+    );
+
+    const wrap = (
+      <div className="wrapper">
+        {lS}
+        {center}
+        {rightSide}
+      </div>
+    );
+
+    setWrapper(wrap);
 
     setImages(newImgs);
-    wrapper.appendChild(lS);
-    wrapper.appendChild(center);
-    wrapper.appendChild(rightSide);
-
-    slider.prepend(wrapper);
-
-    switch (animationEasing) {
-      case "slide":
-        slider.classList.add("slide");
-        break;
-
-      case "fade":
-        slider.classList.add("fade");
-        break;
-
-      default:
-        break;
-    }
-
-    setLeftSide(lS);
-
-    const nextSlide = slider.querySelectorAll("img.show");
-
-    nextSlide.forEach((ele) => {
-      ele.style.transitionDuration = `${timer}s`;
-    });
-
-    const currSlide = slider.querySelectorAll("img.hide");
-
-    currSlide.forEach((ele) => {
-      ele.style.transitionDuration = `${timer}s`;
-    });
 
     if (controlNav) {
       let grabController = document.querySelector(
@@ -159,7 +248,6 @@ const Slider = (props) => {
       grabController.classList.add("active");
     }
   }
-
   ////////////////////////////////////////////////
   const sliderLogic = (c) => {
     if (animating) {
@@ -189,26 +277,10 @@ const Slider = (props) => {
       b = aa + 1;
     }
 
-    if (controlNav) {
-      let grabController = slider.querySelector(
-        ".controlWrapper > ul > li > button.active"
-      );
-      if (grabController) {
-        grabController.classList.remove("active");
-      }
-
-      grabController = slider.querySelector(
-        `.controlWrapper > ul > li:nth-child(${c + 1})`
-      );
-
-      grabController.firstChild.classList.add("active");
-    }
-
     setCounter(c);
-
-    let leftSide = slider.querySelector(".left"),
-      rightSide = slider.querySelector(".right"),
-      center = slider.querySelector(".center"),
+    let leftSide = sRef.current.querySelector(".left"),
+      rightSide = sRef.current.querySelector(".right"),
+      center = sRef.current.querySelector(".center"),
       nextSlide;
 
     leftSide.childNodes.forEach((element) => {
@@ -234,74 +306,73 @@ const Slider = (props) => {
 
     nextSlide.setAttribute("src", images[b]);
 
-    let next = slider.querySelectorAll(".next"),
-      current = slider.querySelectorAll(".current");
+    let next = sRef.current.querySelectorAll(".next"),
+      current = sRef.current.querySelectorAll(".current");
 
-    setTimeout(() => {
-      next.forEach((item) => {
-        item.classList.add("show");
-      });
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        next.forEach((item) => {
+          item.classList.add("show");
+        });
 
-      current.forEach((item) => {
-        item.classList.add("hide");
-      });
-      let imgs = slider.querySelectorAll("img");
-      imgs.forEach((ele) => {
-        ele.style.transitionDuration = "0s";
-      });
+        current.forEach((item) => {
+          item.classList.add("hide");
+        });
+        let imgs = sRef.current.querySelectorAll("img");
+        imgs.forEach((ele) => {
+          ele.style.transitionDuration = "0s";
+        });
 
-      let show = slider.querySelectorAll("img.show");
-      show.forEach((ele) => {
-        ele.style.transitionDuration = `${transitionTime / 1000}s`;
-      });
+        let show = sRef.current.querySelectorAll("img.show");
+        show.forEach((ele) => {
+          ele.style.transitionDuration = `${transitionTime / 1000}s`;
+        });
 
-      let hide = slider.querySelectorAll("img.hide");
-      hide.forEach((ele) => {
-        ele.style.transitionDuration = `${transitionTime / 1000}s`;
-      });
-    }, 1);
+        let hide = sRef.current.querySelectorAll("img.hide");
+        hide.forEach((ele) => {
+          ele.style.transitionDuration = `${transitionTime / 1000}s`;
+        });
+      }, 1);
 
-    setTimeout(() => {
-      current.forEach((item) => {
-        item.classList.add("next");
-      });
+      setTimeout(() => {
+        current.forEach((item) => {
+          item.classList.add("next");
+        });
 
-      let newNext = slider.querySelectorAll(".hide.next");
-      newNext.forEach((item) => {
-        item.classList.remove("hide");
-        item.classList.remove("current");
-      });
+        let newNext = sRef.current.querySelectorAll(".hide.next");
+        newNext.forEach((item) => {
+          item.classList.remove("hide");
+          item.classList.remove("current");
+        });
 
-      let newCurrent = slider.querySelectorAll(".show.next");
-      newCurrent.forEach((item) => {
-        item.classList.add("current");
-        item.classList.remove("show");
-        item.classList.remove("next");
-      });
+        let newCurrent = sRef.current.querySelectorAll(".show.next");
+        newCurrent.forEach((item) => {
+          item.classList.add("current");
+          item.classList.remove("show");
+          item.classList.remove("next");
+        });
 
-      let imgs = slider.querySelectorAll("img");
-      imgs.forEach((ele) => {
-        ele.style.transitionDuration = "0s";
-      });
+        let imgs = sRef.current.querySelectorAll("img");
+        imgs.forEach((ele) => {
+          ele.style.transitionDuration = "0s";
+        });
 
-      let show = slider.querySelectorAll("img.show");
-      show.forEach((ele) => {
-        ele.style.transitionDuration = `${transitionTime / 1000}s`;
-      });
+        let show = sRef.current.querySelectorAll("img.show");
+        show.forEach((ele) => {
+          ele.style.transitionDuration = `${transitionTime / 1000}s`;
+        });
 
-      let hide = slider.querySelectorAll("img.hide");
-      hide.forEach((ele) => {
-        ele.style.transitionDuration = `${transitionTime / 1000}s`;
-      });
-      setAnimating(false);
-    }, transitionTime * 2);
+        let hide = sRef.current.querySelectorAll("img.hide");
+        hide.forEach((ele) => {
+          ele.style.transitionDuration = `${transitionTime / 1000}s`;
+        });
+        setAnimating(false);
+      }, transitionTime * 2);
+    });
   };
 
   ////////////////////////////////////////////////
-  const onBtnClick = (e) => {
-    if (animating) {
-      return;
-    }
+  const onDirectionBtnClick = (e) => {
     setStop(true);
     let c = counter;
 
@@ -309,10 +380,10 @@ const Slider = (props) => {
 
     classes.forEach((element) => {
       if (element === "right") {
-        slider.classList.remove("reverse");
+        sRef.current.classList.remove("reverse");
         c = c + 1;
       } else if (element === "left") {
-        slider.classList.add("reverse");
+        sRef.current.classList.add("reverse");
         c = c - 1;
       }
     });
@@ -320,16 +391,12 @@ const Slider = (props) => {
     sliderLogic(c);
 
     setTimeout(() => {
-      slider.classList.remove("reverse");
+      sRef.current.classList.remove("reverse");
       setStop(false);
     }, transitionTime);
   };
 
   const controllerClicked = (e) => {
-    if (animating) {
-      return;
-    }
-
     setStop(true);
 
     const parentNode = e.target.parentNode.parentNode;
@@ -338,23 +405,26 @@ const Slider = (props) => {
     const c = counter;
 
     if (index < c) {
-      slider.classList.add("reverse");
+      sRef.current.classList.add("reverse");
     }
 
     sliderLogic(index);
 
     setTimeout(() => {
-      slider.classList.remove("reverse");
+      sRef.current.classList.remove("reverse");
       setStop(false);
     }, transitionTime);
   };
 
   const directionNavWrapper = (
     <>
-      <button className="click_me left" onClick={(e) => onBtnClick(e)}></button>
+      <button
+        className="click_me left"
+        onClick={(e) => onDirectionBtnClick(e)}
+      ></button>
       <button
         className="click_me right"
-        onClick={(e) => onBtnClick(e)}
+        onClick={(e) => onDirectionBtnClick(e)}
       ></button>
     </>
   );
@@ -364,19 +434,29 @@ const Slider = (props) => {
       <ul>
         {images.map((item, index) => (
           <li key={index}>
-            {index==0?(<button className="active" onClick={(e) => controllerClicked(e)}></button>):<button onClick={(e) => controllerClicked(e)}></button>}
-            
+            {index == 0 ? (
+              <button
+                className="active"
+                onClick={(e) => controllerClicked(e)}
+              ></button>
+            ) : (
+              <button onClick={(e) => controllerClicked(e)}></button>
+            )}
           </li>
         ))}
       </ul>
     </div>
   );
 
+  window.addEventListener("resize", function () {
+    setWindowSize(window.innerWidth);
+  });
 
   return (
-    <div  className={cs} ref={sRef}>
+    <div className={cs} ref={sRef}>
+      {wrapper && wrapper}
       {directionNav && directionNavWrapper}
-      {controlNav && slideToShow !== 2 && controlNavWrapper}
+      {controlNav && controlNavWrapper}
     </div>
   );
 };
