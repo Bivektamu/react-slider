@@ -73,7 +73,7 @@ const Slider = (props) => {
 
   useEffect(() => {
     if (windowSize < 760 && slideToShow > 1) {
-      let divs = document.querySelectorAll(".wrapper > div");
+      let divs = sRef.current.querySelectorAll(".wrapper > div");
       if (divs.length > 0) {
         divs.forEach((ele) => {
           if (ele.className === "left") {
@@ -84,7 +84,7 @@ const Slider = (props) => {
         });
       }
     } else {
-      let divs = document.querySelectorAll(".wrapper > div");
+      let divs = sRef.current.querySelectorAll(".wrapper > div");
 
       if (slideToShow > 2) {
         if (divs.length > 0) {
