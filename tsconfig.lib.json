@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "outDir": "dist",
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+     "module": "ESNext",       // <-- important, fixes require() issue
+    "target": "ESNext",       // <-- modern JS output
+  },
+  "include": ["src"]
+}
