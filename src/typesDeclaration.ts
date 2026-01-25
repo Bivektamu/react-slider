@@ -1,18 +1,17 @@
 export interface SliderProps {
-    customCss: string,
-    touch?: boolean,
-    slideToShow: number,
+    slideToShow?: number,
+    aspectRatio?: string;
+    customCss?: string,
     images: string[],
-    auto: boolean,
-    timer: number,
-    transitionTime: number,
-    directionNav: boolean
-    controlNav: boolean
-    gap?: number
-    animation: string
+    auto?: boolean,
+    timer?: number,
+    transitionTime?: number,
+    gap?: number,
+    directionNav?: boolean
+    animation?: string
 }
 
-export interface SlideProps  {
+export interface SlideProps {
     path: string,
     currIndex: number,
     index: number,
@@ -25,8 +24,8 @@ export interface DirectionNavProps {
     auto: boolean,
     stopCarousel: () => void,
     playCarousel: () => void,
-    getNextIndex: (index:number) => number,
-    getPrevIndex: (index:number) => number,
+    getNextIndex: (index: number) => number,
+    getPrevIndex: (index: number) => number,
     transitionTime: number,
     setCurrIndex: React.Dispatch<React.SetStateAction<number>>
 }

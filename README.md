@@ -17,13 +17,12 @@ Version 3 is a major rewrite of React FancySlider with a simplified API and impr
 - Some props have been renamed or removed
 - Internal architecture rewritten using modern React patterns
 - IE10 support has been dropped
-
-v3 is still in development phase...
+- Control (Dot) navigation and touch based features are not supported yet
 
 
 ## Installation
 
-You can still install this package (version 2) and use it using below command:
+You can still install this package and use it using below command:
 
 ```bash
 npm install react-fancyslider
@@ -47,9 +46,9 @@ Then, simply use it with below code.
 
 ```javascript
 
-const images = [img1, img2, ....] //Slider Images
+const images = [imgUrl1, imgUrl2, imgUrl3] //Slider Images
 
-<Slider className='customClass' touch={true} slideToShow={3} images = {images} auto={true} timer={2000} transitionTime = {500} directionNav = {true} controlNav={true} gap={50} animationEasing = '' />
+<Slider className='customClass' slideToShow={3} images = {images} auto={true} timer={2000} transitionTime = {500} directionNav = {true} animationEasing = '' />
 
 ```
 
@@ -58,13 +57,11 @@ const images = [img1, img2, ....] //Slider Images
 
 Below are the options to control Slider component as per requirement:
 
-**`slideToShow {type: integar}`**: number of slides to show between 3 to 1 **`Default: 3`**
+**`slideToShow {type: integar}`**: number of slides to show. Max is 3. **`Default: 1`**
 
 **`className {type: string}`**: custom class name passed to slider for better control
 
-**`touch {type: boolean}`**: support for touch based and mobile devices. **`Default: true`**
-
-**`images {type:array}`**: images for slider **`*Required`**
+**`images {type:[string]}`**: image links/urls for slider **`*Required`**
 
 **`auto {type: boolean}`**: sets slider to auto slide **`Default: true`**
 
@@ -74,10 +71,7 @@ Below are the options to control Slider component as per requirement:
 
 **`directionNav {type: boolean}`**: sets left and right arrow for navigation **`Default: false`**
 
-**`controlNav {type: boolean}`**: sets dotted navigation buttons on bottom of slider  **`Default: false`**
-
-**`animationEasing {type:string [slide || fade]}`** : sets easing of animation. You can have choose between default, fade or simple slide easing  **`Default: null`**
-
+**`animationEasing {type:enum [fancy | slide | fade]}`** : sets easing of animation. You can have choose between default (fancy), fade or simple slide easing  **`Default: fancy`**
 
 
 ## App Info
