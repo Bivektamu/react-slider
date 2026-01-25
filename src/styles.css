@@ -19,21 +19,47 @@
   height: 100%;
 }
 
-.fancySlider.slide .wrapper > div img.prev {
+/* fancy animation */
+.fancySlider.fancy .wrapper > div img.prev {
+  transition-delay: 0.05s;
   transform: translateX(-100%) scaleY(1.2);
 }
 
-.fancySlider.slide .wrapper > div img.current {
+.fancySlider.fancy .wrapper > div img.current {
   transform: translateX(0) scaleY(1);
 }
 
-.fancySlider.slide .wrapper > div img.next {
+.fancySlider.fancy .wrapper > div img.next {
   transform: translateX(100%) scaleY(1.2);
 }
 
-.fancySlider.slide .wrapper > div img.hide {
+.fancySlider.fancy .wrapper > div img.hide {
+  transform: translateX(100%) scaleY(1.2);
+}
+
+
+/* slide animation */
+.fancySlider.slide .wrapper > div img.prev {
+  transform: translateX(-100%);
+}
+
+.fancySlider.slide .wrapper > div img.current {
+  transform: translateX(0);
+}
+
+.fancySlider.slide .wrapper > div img.next {
   transform: translateX(100%);
 }
+
+.fancySlider.slide .wrapper > div img.next.hide {
+  transform: translateX(100%);
+}
+
+.fancySlider.slide .wrapper > div img.hide.prev {
+  transform: translateX(-100%);
+}
+
+/* fade animation */
 .fancySlider.fade .wrapper > div img.prev {
   opacity: 0;
 }
@@ -68,7 +94,6 @@
 }
 
 .fancySlider .wrapper > div img.prev {
-  transition-delay: 0.05s;
   z-index: 1;
 }
 
@@ -102,6 +127,7 @@
     z-index: 3;
     cursor: pointer;
     text-indent: 999px;
+    outline: none;
   }
   
   .fancySlider .click_me.hide {
@@ -116,7 +142,7 @@
     position: absolute;
     width: 65px;
     left: 3px;
-    height: 1px;
+    height: 2px;
     background: #fff;
   }
   
@@ -126,8 +152,8 @@
     left: 2px;
     width: 5px;
     height: 5px;
-    border-left: 1px solid #fff;
-    border-bottom: 1px solid #fff;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
     transform: rotate(45deg);
     top: 0;
     bottom: 0;
@@ -142,4 +168,42 @@
   .fancySlider .click_me.next {
     right: 20px;
     transform: rotate(180deg);
+  }
+  
+  .fancySlider .controlWrapper {
+    display: block;
+    text-align: center;
+    margin-top: 40px;
+  }
+  
+  .fancySlider .controlWrapper ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 10px;
+  }
+  
+  .fancySlider .controlWrapper ul li {
+    list-style: none;
+  }
+  
+  .fancySlider .controlWrapper ul li button {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    border: 1px solid black;
+    outline: none;
+  }
+  
+  .fancySlider .controlWrapper ul li button:hover,
+  .fancySlider .controlWrapper ul li button.active {
+    background: black;
+  }
+  
+  .fancySlider .controlWrapper ul li button.active {
+    pointer-events: none;
   }

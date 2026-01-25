@@ -1,6 +1,4 @@
 import {  useMemo } from 'react'
-import './styles.css'
-
 type Props = {
     path: string,
     currIndex: number,
