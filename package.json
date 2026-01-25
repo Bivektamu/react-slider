@@ -1,5 +1,6 @@
 {
   "name": "react-fancyslider",
+  "description": "A lightweight React carousel supporting multiple visible slides",
   "version": "3.0.0",
   "files": [
     "dist"
@@ -10,11 +11,11 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types":"./dist/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.es.js",
       "require": "./dist/index.cjs.js"
     },
-    "./dist/styles.css":"./dist/styles.css"
+    "./dist/styles.css": "./dist/styles.css"
   },
   "scripts": {
     "dev": "vite",
@@ -27,11 +28,12 @@
     "react-dom": ">=18.0.0"
   },
   "keywords": [
-    "react slider",
-    "slider",
-    "3 slides slider",
+    "react",
+    "carousel",
+    "react-carousel",
+    "react-slider",
     "fancyslider",
-    "react fancyslider"
+    "react-fancyslider"
   ],
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -46,9 +48,13 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "npm:rolldown-vite@7.2.5",
+    "vite-plugin-lib-inject-css": "^2.2.2",
     "vite-plugin-dts": "^4.5.4"
   },
-  "dependencies": {
-    "vite-plugin-lib-inject-css": "^2.2.2"
+  "author": "Bivek Jang Gurung",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bivektamu/react-slider/"
   }
 }
