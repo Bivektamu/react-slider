@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# React FancySlider (v3)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight and flexible carousel slider that allows you to build fully functional and advanced slider with three slides. This react library is built using react.js, css and adheres to latest ECMAScript specs. This library is intended to be used along with react.js.
 
-Currently, two official plugins are available:
+Latest, update supports touch based devices and responsive layouts for mobiles. Supports IE10+ and all major browsers. You can view live demo [here](https://fancysliderdemo.netlify.app/). If you have any issues, please follow this [link](https://github.com/Bivektamu/react-slider/issues).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Inspiration
 
-## React Compiler
+Originally, this was a pure vanilla js module which I had developed for one of my client as per their unique requirement. They specifically wanted three slides carousel along with unique transition effect. Now, I have upgraded this library to have more control over carousel such as navigation buttons, transition duration, animation duration, number of slides to be displayed, e.t.c.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+## ⚠️ v3 Rewrite Notes
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Version 3 is a major rewrite of React FancySlider with a simplified API and improved performance. 
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Breaking changes:
+- Some props have been renamed or removed
+- Internal architecture rewritten using modern React patterns
+- IE10 support has been dropped
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+v3 is still in development phase...
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+
+## Installation
+
+You can still install this package (version 2) and use it using below command:
+
+```bash
+npm install react-fancyslider
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Note**: You are to use this library along with react.js, since it is a pure react component under the hood.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Usage
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Import the Slider component in your desired react component using following code:
+
+
+```javascript
+
+import {Slider} from 'react-fancyslider'
+
 ```
+
+Then, simply use it with below code.
+
+
+```javascript
+
+const images = [img1, img2, ....] //Slider Images
+
+<Slider className='customClass' touch={true} slideToShow={3} images = {images} auto={true} timer={2000} transitionTime = {500} directionNav = {true} controlNav={true} gap={50} animationEasing = '' />
+
+```
+
+
+## Props || Options
+
+Below are the options to control Slider component as per requirement:
+
+**`slideToShow {type: integar}`**: number of slides to show between 3 to 1 **`Default: 3`**
+
+**`className {type: string}`**: custom class name passed to slider for better control
+
+**`touch {type: boolean}`**: support for touch based and mobile devices. **`Default: true`**
+
+**`images {type:array}`**: images for slider **`*Required`**
+
+**`auto {type: boolean}`**: sets slider to auto slide **`Default: true`**
+
+**`timer {type: integar}`**: sets the speed of the slideshow cycling, in milliseconds **`Default: 4000 || 4s`**
+
+**`transitionTime {type: integar}`**: sets the speed of animation, in milliseconds **`Default" 500 || 0.5s`**
+
+**`directionNav {type: boolean}`**: sets left and right arrow for navigation **`Default: false`**
+
+**`controlNav {type: boolean}`**: sets dotted navigation buttons on bottom of slider  **`Default: false`**
+
+**`animationEasing {type:string [slide || fade]}`** : sets easing of animation. You can have choose between default, fade or simple slide easing  **`Default: null`**
+
+
+
+## App Info
+### Author
+Bivek Jang Gurung
