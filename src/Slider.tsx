@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState, TouchEvent } from "react"
 import './styles.css'
 import Slide from "./Slide"
 import DirectionNav from "./DirectionNav"
@@ -8,7 +8,7 @@ export const Slider = ({
     slideToShow = 1,
     customCss = '',
     images,
-    aspectRatio='3/4',
+    aspectRatio = '3/4',
     auto = true,
     timer = 4000,
     transitionTime = 500,
@@ -18,11 +18,14 @@ export const Slider = ({
 }: SliderProps) => {
 
     const [currIndex, setCurrIndex] = useState(0)
+    const [initalX, setInitialX] = useState<null | number>(null)
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+    const clickedRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const restartRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
     const getNextIndex = useCallback((index: number) => (index + 1) % images.length, [images.length])
 
-    
+
     const getForwardIndex = useCallback((currentIndex: number, forwardBy: number) => (currentIndex + forwardBy) % images.length, [images.length])
 
     const getPrevIndex = useCallback((index: number) => (index - 1 + images.length) % images.length, [images.length])
@@ -41,8 +44,36 @@ export const Slider = ({
 
     useEffect(() => {
         playCarousel();
-        return stopCarousel
+        return (() => {
+            stopCarousel()
+            if (clickedRef.current) clearTimeout(clickedRef.current)
+            if (restartRef.current) clearTimeout(restartRef.current)
+        })
     }, [])
+
+    const touchStartHandler = useCallback((event: TouchEvent) => {
+        setInitialX(event.touches[0].pageX)
+    }, [])
+
+    const touchEndHandler = useCallback((event: TouchEvent) => {
+        const deltaX = event.changedTouches[0].pageX - initalX
+        if (Math.abs(deltaX) > 65) {
+            if (auto)
+                stopCarousel()
+            if (clickedRef.current) clearTimeout(clickedRef.current)
+            if (restartRef.current) clearTimeout(restartRef.current)
+
+            if (deltaX < 0) {
+                clickedRef.current = setTimeout(() => setCurrIndex(prev => getNextIndex(prev)), transitionTime / 2)
+            }
+            else if (deltaX > 0) {
+                clickedRef.current = setTimeout(() => setCurrIndex(prev => getPrevIndex(prev)), transitionTime / 2)
+            }
+
+            if (auto)
+                restartRef.current = setTimeout(() => playCarousel(), transitionTime)
+        }
+    }, [stopCarousel, getNextIndex, transitionTime, getPrevIndex, playCarousel, auto, initalX])
 
     if (!images || images.length === 0) {
         console.error('reactFancySlider: Carousel image links are not provided')
@@ -55,58 +86,38 @@ export const Slider = ({
     }
 
     return (
-        <div className={`fancySlider ${animation} ${customCss}`}>
+        <div
+            className={`fancySlider ${animation} ${customCss}`}
+            onTouchStart={touchStartHandler}
+            onTouchEnd={touchEndHandler}
+        >
             <div className="wrapper" style={{
-                gridTemplateColumns:`repeat(${slideToShow}, 1fr)`,
-                gap:`${gap}px`
+                gridTemplateColumns: `repeat(${slideToShow}, 1fr)`,
+                gap: `${gap}px`,
+                touchAction: 'pan-y'
             }}>
 
-                <div className="left" style={{ 
-                    aspectRatio:aspectRatio
-                    }}>
-                    {
-                        images.map((img: string, i: number) => <Slide
-                            key={i}
-                            path={img}
-                            currIndex={currIndex}
-                            index={i}
-                            transitionTime={transitionTime}
-                            nextIndex={getNextIndex(currIndex)}
-                            prevIndex={getPrevIndex(currIndex)} />
-                        )
-                    }
-                </div>
                 {
-                    slideToShow >1 && <div className="center" style={{ aspectRatio:aspectRatio}}>
-                        {
-                            images.map((img: string, i: number) => <Slide
-                                key={i}
-                                path={img}
-                                currIndex={getForwardIndex(currIndex, 1)}
-                                index={i}
-                                transitionTime={transitionTime}
-                                nextIndex={getNextIndex(getForwardIndex(currIndex, 1))}
-                                prevIndex={getPrevIndex(getForwardIndex(currIndex, 1))} />
-                            )
-                        }
-                    </div>
+                    Array.from({ length: slideToShow }).map((_, index) =>
+                        <div
+                        className="slot"
+                            key={`slot-${index}`}
+                            style={{ aspectRatio: aspectRatio }}>
+                            {
+                                images.map((img: string, i: number) => <Slide
+                                    key={i}
+                                    path={img}
+                                    currIndex={getForwardIndex(currIndex, index)}
+                                    index={i}
+                                    transitionTime={transitionTime}
+                                    nextIndex={getNextIndex(getForwardIndex(currIndex, index))}
+                                    prevIndex={getPrevIndex(getForwardIndex(currIndex, index))} />
+                                )
+                            }
+                        </div>
+                    )
                 }
 
-                {
-                    slideToShow  > 2 && <div className="right" style={{ aspectRatio:aspectRatio}}>
-                        {
-                            images.map((img: string, i: number) => <Slide
-                                key={i}
-                                path={img}
-                                currIndex={getForwardIndex(currIndex, 2)}
-                                index={i}
-                                transitionTime={transitionTime}
-                                nextIndex={getNextIndex(getForwardIndex(currIndex, 2))}
-                                prevIndex={getPrevIndex(getForwardIndex(currIndex, 2))} />
-                            )
-                        }
-                    </div>
-                }
             </div>
 
             {
