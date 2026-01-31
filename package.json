@@ -1,7 +1,7 @@
 {
   "name": "react-fancyslider",
   "description": "A lightweight React carousel supporting multiple visible slides",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "files": [
     "dist"
   ],
