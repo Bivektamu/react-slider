@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { memo, useCallback, useEffect, useRef } from 'react'
 import type { DirectionNavProps } from './typesDeclaration'
 
-const DirectionNav = ({
+const DirectionNav = memo(({
     auto,
     stopCarousel,
     playCarousel,
@@ -31,12 +31,10 @@ const DirectionNav = ({
     useEffect(() => {
         return (() => {
             if (clickRef.current) clearTimeout(clickRef.current)
-
             if (restartRef.current) clearTimeout(restartRef.current)
 
         })
     }, [])
-
 
     return (
         <>
@@ -52,6 +50,5 @@ const DirectionNav = ({
             >Next</button>
         </>
     )
-}
-
+})
 export default DirectionNav

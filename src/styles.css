@@ -163,12 +163,55 @@
   transform: rotate(180deg);
 }
 
+.fancySlider .dotWrapper {
+  display: block;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.fancySlider .dotWrapper ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
+}
+
+.fancySlider .dotWrapper ul li {
+  list-style: none;
+}
+
+.fancySlider .dotWrapper ul li button {
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  border: 1px solid black;
+  outline: none;
+}
+
+.fancySlider .dotWrapper ul li button.active {
+  background: black;
+}
+
+@media (hover: hover) {
+  .fancySlider .dotWrapper ul li button:hover {
+    background: black;
+  }
+}
+
+.fancySlider .dotWrapper ul li button.active {
+  pointer-events: none;
+}
+
 @media (max-width: 600px) {
   .fancySlider.fancy .wrapper {
     grid-template-columns: 1fr !important;
   }
 
   .fancySlider.fancy .wrapper > .slot:not(:first-child) {
-    display: none!important;
+    display: none !important;
   }
 }

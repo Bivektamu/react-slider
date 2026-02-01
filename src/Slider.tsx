@@ -3,6 +3,7 @@ import './styles.css'
 import Slide from "./Slide"
 import DirectionNav from "./DirectionNav"
 import type { SliderProps } from "./typesDeclaration"
+import DotNav from "./DotNav"
 
 export const Slider = ({
     slideToShow = 1,
@@ -13,6 +14,7 @@ export const Slider = ({
     timer = 4000,
     transitionTime = 500,
     directionNav = false,
+    dotNav = false,
     gap = 0,
     animation = 'fancy'
 }: SliderProps) => {
@@ -22,6 +24,7 @@ export const Slider = ({
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
     const clickedRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const restartRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const [updatedTransitionTime, setUpdatedTransitionTime] = useState(transitionTime)
 
     const getNextIndex = useCallback((index: number) => (index + 1) % images.length, [images.length])
 
@@ -100,7 +103,7 @@ export const Slider = ({
                 {
                     Array.from({ length: slideToShow }).map((_, index) =>
                         <div
-                        className="slot"
+                            className="slot"
                             key={`slot-${index}`}
                             style={{ aspectRatio: aspectRatio }}>
                             {
@@ -109,7 +112,7 @@ export const Slider = ({
                                     path={img}
                                     currIndex={getForwardIndex(currIndex, index)}
                                     index={i}
-                                    transitionTime={transitionTime}
+                                    transitionTime={updatedTransitionTime}
                                     nextIndex={getNextIndex(getForwardIndex(currIndex, index))}
                                     prevIndex={getPrevIndex(getForwardIndex(currIndex, index))} />
                                 )
@@ -125,10 +128,26 @@ export const Slider = ({
                     auto={auto}
                     stopCarousel={stopCarousel}
                     setCurrIndex={setCurrIndex}
-                    transitionTime={transitionTime}
+                    transitionTime={updatedTransitionTime}
                     playCarousel={playCarousel}
                     getNextIndex={getNextIndex}
                     getPrevIndex={getPrevIndex}
+                />
+            }
+
+            {
+                dotNav && <DotNav
+                    auto={auto}
+                    stopCarousel={stopCarousel}
+                    setCurrIndex={setCurrIndex}
+                    transitionTime={updatedTransitionTime}
+                    updateTransitionTime = {setUpdatedTransitionTime}
+                    timer={timer}
+                    playCarousel={playCarousel}
+                    getNextIndex={getNextIndex}
+                    getPrevIndex={getPrevIndex}
+                    totalSlides={images.length}
+                    currIndex={currIndex}
                 />
             }
 

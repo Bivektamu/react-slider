@@ -7,7 +7,8 @@ export interface SliderProps {
     timer?: number,
     transitionTime?: number,
     gap?: number,
-    directionNav?: boolean
+    directionNav?: boolean,
+    dotNav?: boolean,
     animation?: string
 }
 
@@ -28,4 +29,18 @@ export interface DirectionNavProps {
     getPrevIndex: (index: number) => number,
     transitionTime: number,
     setCurrIndex: React.Dispatch<React.SetStateAction<number>>
+}
+
+export interface DotNavProps {
+    auto: boolean,
+    stopCarousel: () => void,
+    playCarousel: () => void,
+    getNextIndex: (index: number) => number,
+    getPrevIndex: (index: number) => number,
+    transitionTime: number,
+    currIndex: number,
+    totalSlides: number,
+    timer: number,
+    setCurrIndex: React.Dispatch<React.SetStateAction<number>>,
+    updateTransitionTime:React.Dispatch<React.SetStateAction<number>>
 }

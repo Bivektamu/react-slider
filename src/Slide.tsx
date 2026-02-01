@@ -1,4 +1,4 @@
-import {  useMemo } from 'react'
+import { memo, useMemo } from 'react'
 type Props = {
     path: string,
     currIndex: number,
@@ -7,7 +7,7 @@ type Props = {
     prevIndex: number,
     transitionTime: number
 }
-const Slide = ({
+const Slide = memo(({
     path,
     currIndex,
     index,
@@ -16,7 +16,7 @@ const Slide = ({
     transitionTime
 }: Props) => {
 
-    const css:string = useMemo(() => {
+    const css: string = useMemo(() => {
         if (index === currIndex) {
             return 'current'
         }
@@ -27,14 +27,14 @@ const Slide = ({
         else if (index === prevIndex) {
             return 'prev'
         }
-        
+
         return 'hide'
     }, [index, currIndex, nextIndex, prevIndex])
 
 
     return (
-        <img src={path} alt="" style={{transitionDuration:`${transitionTime}ms`}} className={css} />
+        <img src={path} alt="" style={{ transitionDuration: `${transitionTime}ms` }} className={css} />
     )
-}
+})
 
 export default Slide
