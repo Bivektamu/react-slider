@@ -59,7 +59,7 @@ const images = [imgUrl1, imgUrl2, imgUrl3] //Slider Images
     timer={2000}
     transitionTime = {500}
     directionNav = {true}
-    animationEasing='fancy'
+    animation='fancy'
     aspectRatio='3/4'
     gap={20}
 />
@@ -84,7 +84,7 @@ Below are the options to control Slider component as per requirement:
 
 **`directionNav {type: boolean}`**: sets left and right arrow for navigation **`Default: false`**
 
-**`animationEasing {type:enum [fancy | slide | fade]}`** : sets easing of animation. You can have choose between default (fancy), fade or simple slide easing **`Default: fancy`**
+**`animation {type:enum [fancy | slide | fade]}`** : sets easing of animation. You can have choose between default (fancy), fade or simple slide easing **`Default: fancy`**
 
 **`aspectRatio {type: string}`**: sets aspect ratio for slides (e.g. `"16/9"`, `"4/3"`, `"1/1"`) **`Default: "3/4"`**
 
