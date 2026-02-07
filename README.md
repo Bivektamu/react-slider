@@ -1,8 +1,8 @@
-# React FancySlider (v3.1)
+# React FancySlider (v3.2)
 
 A lightweight and flexible carousel slider that allows you to build fully functional and advanced slider which supports up to 3 slides at once. This react library is built using react.js, css and adheres to latest ECMAScript specs. This library is intended to be used along with react.js.
 
-The latest version supports **touch-based swipe gestures** and **responsive layouts for mobile devices**.
+The latest version supports **touch-based swipe gestures**, **dot navigation** and **responsive layouts for mobile devices**.
 You can view live demo [here](https://fancysliderdemo.netlify.app/). If you have any issues, please follow this [link](https://github.com/Bivektamu/react-slider/issues).
 
 ## Inspiration
@@ -19,13 +19,18 @@ Version 3 is a major rewrite of React FancySlider with a simplified API and impr
 - Internal architecture rewritten using modern React patterns
 - IE10 support has been dropped
 - Styling and layout logic has been simplified
-- Dot navigation has been removed (may return in a future version)
+
 
 ### ✨ New in v3.1
 
 - Touch & swipe support (mobile-friendly)
 - Configurable aspect ratio for slides
 - Gap control between slides
+
+
+### ✨ New in v3.2
+
+- Dot navigation support
 
 ## Installation
 
@@ -35,7 +40,7 @@ You can still install this package and use it using below command:
 npm install react-fancyslider
 ```
 
-**Note**: You are to use this library along with react.js, since it is a pure react component under the hood.
+**Note**: You are to use this library along with react.js >= 18, since it is a pure react component under the hood.
 
 ## Usage
 
@@ -59,6 +64,7 @@ const images = [imgUrl1, imgUrl2, imgUrl3] //Slider Images
     timer={2000}
     transitionTime = {500}
     directionNav = {true}
+    dotNav={true}
     animation='fancy'
     aspectRatio='3/4'
     gap={20}
@@ -82,7 +88,9 @@ Below are the options to control Slider component as per requirement:
 
 **`transitionTime {type: number}`**: sets the speed of animation, in milliseconds **`Default" 500 || 0.5s`**
 
-**`directionNav {type: boolean}`**: sets left and right arrow for navigation **`Default: false`**
+**`directionNav {type: boolean}`**: enable / disable left and right arrow for navigation **`Default: false`**
+
+**`dotNav {type: boolean}`**: enable / disable dot navigation **`Default: false`**
 
 **`animation {type:enum [fancy | slide | fade]}`** : sets easing of animation. You can have choose between default (fancy), fade or simple slide easing **`Default: fancy`**
 
